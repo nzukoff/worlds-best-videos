@@ -1,5 +1,5 @@
 [X] Given that I type the url into the address bar, when I press enter, then I can see a live web app with a logo.
-Given a browser, when I browse to the site, then I see a list of Video titles
+[X] Given a browser, when I browse to the site, then I see a list of titled videos.
 Given a browser, when I browse to the site, then I see an "Add Video" button.
 Given I see the "Add Video" button, when I click it, then I am taken to an Add Video page.
 Given I am on the Add Video page, when I fill in the fields and click "Add", I am taken back to the list page.
