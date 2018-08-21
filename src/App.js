@@ -17,6 +17,10 @@ class App extends Component {
     }
   }
 
+  onAdd = () => {
+    this.setState({view: 'video_list'})
+  }
+
   setAddVideoView = () => {
     this.setState({view: 'add_video'})
   }
@@ -27,7 +31,7 @@ class App extends Component {
     if (this.state.view ==='add_video') {
       visible_content =
         <div>
-          <AddVideo />
+          <AddVideo onAdd={this.onAdd}/>
         </div>
     } else {
       visible_content =

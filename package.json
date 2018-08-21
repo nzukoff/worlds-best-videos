@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "sinon": "^6.1.5"
   },
   "dependencies": {
     "enzyme": "^3.4.1",

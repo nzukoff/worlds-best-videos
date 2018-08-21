@@ -48,3 +48,23 @@ it('clicking "Add Video" button takes the user to an add video page', () => {
   addVideoButton = appWrapper.find('button');
   expect(addVideoButton).toHaveLength(0);
 });
+
+it('clicking "Add" button from the add video page takes the user to the video list page', () => {
+  const appWrapper = shallow(<App />);
+  let addVideoButton = appWrapper.find('button');
+  addVideoButton.simulate('click')
+  expect(appWrapper.state().view).toEqual('add_video')
+  appWrapper.instance().onAdd();
+  expect(appWrapper.state().view).toEqual('video_list')
+  const videoList = appWrapper.find(VideoList);
+  expect(videoList).toHaveLength(1);
+  const addVideo = appWrapper.find(AddVideo);
+  expect(addVideo).toHaveLength(0);
+});
+
+it('onAdd is passed from App to AddVideo correctly', () => {
+  const appWrapper = shallow(<App />);
+  appWrapper.setState({view: 'add_video'})
+  const addVideo = appWrapper.find(AddVideo)
+  expect(addVideo.props().onAdd).toEqual(appWrapper.instance().onAdd);
+})

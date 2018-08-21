@@ -8,6 +8,9 @@ class AddVideo extends Component {
   render() {
     return (
       <div className="AddVideo">
+        <form>
+          <button onClick={this.props.onAdd}>Add</button>
+        </form>
       </div>
     );
   }
