@@ -3,7 +3,7 @@
 [X] Given a browser, when I browse to the site, then I see an "Add Video" button.
 [X] Given I see the "Add Video" button, when I click it, then I am taken to an Add Video page.
 [X] Given I am on the Add Video page, when I fill in the fields and click "Add", I am taken back to the list page.
-Given that I have added a video, when I am on the list page, then I see my video.
+[X] Given that I have added a video, when I am on the list page, then I see my video.
 Given that I see video in the list, when I click a video, I am taken to a Video Edit page.
 Given I am on the Video edit page, when I change a videos name and click Save, then I am taken back to the list page.
 Given that I have made updates to videos, when I am on the list page, I should see the modified information.

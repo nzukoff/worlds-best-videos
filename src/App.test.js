@@ -68,3 +68,16 @@ it('onAdd is passed from App to AddVideo correctly', () => {
   const addVideo = appWrapper.find(AddVideo)
   expect(addVideo.props().onAdd).toEqual(appWrapper.instance().onAdd);
 })
+
+it('shows a video in the video list when one is added', () => {
+  // Setup
+  const appWrapper = shallow(<App />)
+  const expected = {title: 'Brazil'}
+  const videoList = appWrapper.find(VideoList)
+
+  // Exercise
+  appWrapper.instance().onAdd(expected)
+
+  // Assert
+  expect(appWrapper.state().videos).toContainEqual(expected)
+})

@@ -11,14 +11,17 @@ class App extends Component {
     this.state = {
       view: 'video_list',
       videos: [
-        { title: 'Star Wars' },
-        { title: 'Star Trek II'}
+        {title: 'Star Wars'},
+        {title: 'Star Trek II'}
       ]
     }
   }
 
-  onAdd = () => {
-    this.setState({view: 'video_list'})
+  onAdd = (newVideo) => {
+    this.setState((prevState) => ({
+                    videos: [...prevState.videos, newVideo],
+                    view: 'video_list'
+                  }))
   }
 
   setAddVideoView = () => {
