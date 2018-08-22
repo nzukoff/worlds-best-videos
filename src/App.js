@@ -3,6 +3,8 @@ import logo from './logo.jpg';
 import './App.css';
 import VideoList from './components/VideoList/VideoList'
 import AddVideo from './components/AddVideo/AddVideo'
+import EditVideo from './components/EditVideo/EditVideo'
+
 
 class App extends Component {
   constructor(props) {
@@ -17,15 +19,19 @@ class App extends Component {
     }
   }
 
-  onAdd = (newVideo) => {
+  onSaveAddedVideo = (newVideo) => {
     this.setState((prevState) => ({
                     videos: [...prevState.videos, newVideo],
                     view: 'video_list'
                   }))
   }
 
-  setAddVideoView = () => {
+  onAddVideo = () => {
     this.setState({view: 'add_video'})
+  }
+
+  onEditVideo = () => {
+    this.setState({view: 'edit_video'})
   }
 
   render() {
@@ -34,14 +40,19 @@ class App extends Component {
     if (this.state.view ==='add_video') {
       visible_content =
         <div>
-          <AddVideo onAdd={this.onAdd}/>
+          <AddVideo onSaveAddedVideo={this.onSaveAddedVideo}/>
         </div>
-    } else {
+    } else if (this.state.view ==='video_list')  {
       visible_content =
         <div>
-          <button onClick={this.setAddVideoView}>Add Video</button>
-          <VideoList videos={this.state.videos} />
+          <button onClick={this.onAddVideo}>Add Video</button>
+          <VideoList onEditVideo={this.onEditVideo} videos={this.state.videos} />
         </div>
+    } else if (this.state.view ==='edit_video') {
+      visible_content =
+      <div>
+        <EditVideo />
+      </div>
     }
 
     return(

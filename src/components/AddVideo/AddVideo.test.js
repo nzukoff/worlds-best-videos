@@ -11,24 +11,24 @@ it('creates a means to add a new video', () => {
 })
 
 it('contains an "Add" button', () => {
-  const onAdd = sinon.stub()
-  const addVideoWrapper = shallow(<AddVideo onAdd={onAdd} />)
+  const onSaveAddedVideo = sinon.stub()
+  const addVideoWrapper = shallow(<AddVideo onSaveAddedVideo={onSaveAddedVideo} />)
   const addButton = addVideoWrapper.find('form').find('button')
   expect(addButton).toHaveLength(1)
   addButton.simulate('click')
-  expect(onAdd.calledOnce).toBe(true)
+  expect(onSaveAddedVideo.calledOnce).toBe(true)
 })
 
 it('creates a video when "Add" clicked', () => {
   // Setup
-  const onAdd = sinon.stub()
-  const addVideoWrapper = shallow(<AddVideo onAdd={onAdd} />)
+  const onSaveAddedVideo = sinon.stub()
+  const addVideoWrapper = shallow(<AddVideo onSaveAddedVideo={onSaveAddedVideo} />)
   addVideoWrapper.setState({title: "A Few Good Men"})
   const addButton = addVideoWrapper.find('form').find('button')
   expect(addButton).toHaveLength(1)
   addButton.simulate('click')
-  expect(onAdd.calledOnce).toBe(true)
-  expect(onAdd.calledWith({title: 'A Few Good Men'})).toBe(true);
+  expect(onSaveAddedVideo.calledOnce).toBe(true)
+  expect(onSaveAddedVideo.calledWith({title: 'A Few Good Men'})).toBe(true);
 })
 
 it('sets title in form correctly', () => {

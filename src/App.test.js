@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import VideoList from './components/VideoList/VideoList';
 import AddVideo from './components/AddVideo/AddVideo';
+import EditVideo from './components/EditVideo/EditVideo';
 
 import { shallow } from 'enzyme';
 
@@ -54,7 +55,7 @@ it('clicking "Add" button from the add video page takes the user to the video li
   let addVideoButton = appWrapper.find('button');
   addVideoButton.simulate('click')
   expect(appWrapper.state().view).toEqual('add_video')
-  appWrapper.instance().onAdd();
+  appWrapper.instance().onSaveAddedVideo();
   expect(appWrapper.state().view).toEqual('video_list')
   const videoList = appWrapper.find(VideoList);
   expect(videoList).toHaveLength(1);
@@ -62,11 +63,11 @@ it('clicking "Add" button from the add video page takes the user to the video li
   expect(addVideo).toHaveLength(0);
 });
 
-it('onAdd is passed from App to AddVideo correctly', () => {
+it('onSaveAddedVideo is passed from App to AddVideo correctly', () => {
   const appWrapper = shallow(<App />);
   appWrapper.setState({view: 'add_video'})
   const addVideo = appWrapper.find(AddVideo)
-  expect(addVideo.props().onAdd).toEqual(appWrapper.instance().onAdd);
+  expect(addVideo.props().onSaveAddedVideo).toEqual(appWrapper.instance().onSaveAddedVideo);
 })
 
 it('shows a video in the video list when one is added', () => {
@@ -76,8 +77,32 @@ it('shows a video in the video list when one is added', () => {
   const videoList = appWrapper.find(VideoList)
 
   // Exercise
-  appWrapper.instance().onAdd(expected)
+  appWrapper.instance().onSaveAddedVideo(expected)
 
   // Assert
   expect(appWrapper.state().videos).toContainEqual(expected)
+})
+
+it('clicking a video title from the video list page takes the user to the edit video page', () => {
+  // Setup
+  const appWrapper = shallow(<App />)
+
+
+  //Exercise
+  appWrapper.instance().onEditVideo()
+  const editVideo = appWrapper.find(EditVideo)
+  const videoList = appWrapper.find(VideoList)
+  const addVideo = appWrapper.find(AddVideo)
+
+  //Assert
+  expect(appWrapper.state().view).toEqual('edit_video')
+  expect(editVideo).toHaveLength(1)
+  expect(videoList).toHaveLength(0)
+  expect(addVideo).toHaveLength(0)
+});
+
+it('onEditVideo is passed from App to VideoList correctly', () => {
+  const appWrapper = shallow(<App />);
+  const videoList = appWrapper.find(VideoList)
+  expect(videoList.props().onEditVideo).toEqual(appWrapper.instance().onEditVideo);
 })
