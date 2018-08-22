@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import VideoList from './VideoList';
-import AddVideo from './AddVideo';
+import VideoList from './components/VideoList/VideoList';
+import AddVideo from './components/AddVideo/AddVideo';
 
 import { shallow } from 'enzyme';
 

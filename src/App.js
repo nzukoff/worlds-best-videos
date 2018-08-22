@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.jpg';
 import './App.css';
-import VideoList from './VideoList'
-import AddVideo from './AddVideo'
+import VideoList from './components/VideoList/VideoList'
+import AddVideo from './components/AddVideo/AddVideo'
 
 class App extends Component {
   constructor(props) {

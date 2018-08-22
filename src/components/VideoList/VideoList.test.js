@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import VideoList from './VideoList';
-import Video from './Video';
+import Video from '../Video/Video';
 import { shallow } from 'enzyme';
 
 it('displays a list of video titles', () => {

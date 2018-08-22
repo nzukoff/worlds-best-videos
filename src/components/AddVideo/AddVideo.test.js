@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AddVideo from './AddVideo';
-import Video from './Video';
-import App from './App'
+import Video from '../Video/Video';
+import App from '../../App'
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
