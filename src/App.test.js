@@ -38,29 +38,35 @@ it('displays an "Add Video" button', () => {
   expect(addVideoButton.text()).toBe('Add Video')
 });
 
-it('clicking "Add Video" button takes the user to an add video page', () => {
-  const appWrapper = shallow(<App />);
-  let addVideoButton = appWrapper.find('button');
-  addVideoButton.simulate('click')
-  const addVideo = appWrapper.find(AddVideo);
-  expect(addVideo).toHaveLength(1);
-  const videoList = appWrapper.find(VideoList);
-  expect(videoList).toHaveLength(0);
-  addVideoButton = appWrapper.find('button');
-  expect(addVideoButton).toHaveLength(0);
+it('clicking the "Add Video" button takes the user to the add video page', () => {
+  // Setup
+  const appWrapper = shallow(<App />)
+
+  // Exercise
+  appWrapper.instance().onAddVideo()
+  const editVideo = appWrapper.find(EditVideo)
+  const videoList = appWrapper.find(VideoList)
+  const addVideo = appWrapper.find(AddVideo)
+
+  // Assert
+  expect(appWrapper.state().view).toEqual('add_video')
+  expect(editVideo).toHaveLength(0)
+  expect(videoList).toHaveLength(0)
+  expect(addVideo).toHaveLength(1)
 });
 
 it('clicking "Add" button from the add video page takes the user to the video list page', () => {
+  // Setup
   const appWrapper = shallow(<App />);
-  let addVideoButton = appWrapper.find('button');
-  addVideoButton.simulate('click')
-  expect(appWrapper.state().view).toEqual('add_video')
-  appWrapper.instance().onSaveAddedVideo();
+  appWrapper.setState({view: 'add_video'})
+
+  // Exercise
+  appWrapper.instance().onSaveAddedVideo()
+
+  // Assert
   expect(appWrapper.state().view).toEqual('video_list')
-  const videoList = appWrapper.find(VideoList);
+  const videoList = appWrapper.find(VideoList)
   expect(videoList).toHaveLength(1);
-  const addVideo = appWrapper.find(AddVideo);
-  expect(addVideo).toHaveLength(0);
 });
 
 it('onSaveAddedVideo is passed from App to AddVideo correctly', () => {
@@ -87,14 +93,13 @@ it('clicking a video title from the video list page takes the user to the edit v
   // Setup
   const appWrapper = shallow(<App />)
 
-
-  //Exercise
+  // Exercise
   appWrapper.instance().onEditVideo()
   const editVideo = appWrapper.find(EditVideo)
   const videoList = appWrapper.find(VideoList)
   const addVideo = appWrapper.find(AddVideo)
 
-  //Assert
+  // Assert
   expect(appWrapper.state().view).toEqual('edit_video')
   expect(editVideo).toHaveLength(1)
   expect(videoList).toHaveLength(0)
@@ -106,3 +111,17 @@ it('onEditVideo is passed from App to VideoList correctly', () => {
   const videoList = appWrapper.find(VideoList)
   expect(videoList.props().onEditVideo).toEqual(appWrapper.instance().onEditVideo);
 })
+
+it('clicking "Save" button from the edit video page takes the user to the video list page', () => {
+  // Setup
+  const appWrapper = shallow(<App />);
+  appWrapper.setState({view: 'edit_video'})
+
+  // Exercise
+  appWrapper.instance().onSaveEditedVideo()
+
+  // Assert
+  expect(appWrapper.state().view).toEqual('video_list')
+  const videoList = appWrapper.find(VideoList)
+  expect(videoList).toHaveLength(1);
+});

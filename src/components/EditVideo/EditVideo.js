@@ -8,7 +8,10 @@ class EditVideo extends Component {
   render() {
     return (
       <div className="EditVideo">
-        <h3>EDIT VIDEO COMPONENT</h3>
+        <form>
+          {/* <input name='title' value={this.state.title} onChange={this.editTitle}/> */}
+          <button onClick={() => this.props.onSaveEditedVideo(this.state)}>Save</button>
+        </form>
       </div>
     );
   }

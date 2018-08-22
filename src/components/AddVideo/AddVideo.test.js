@@ -10,7 +10,7 @@ it('creates a means to add a new video', () => {
   const addVideoWrapper = shallow(<AddVideo />)
 })
 
-it('contains an "Add" button', () => {
+it('contains an "Add" button that calls a handler', () => {
   const onSaveAddedVideo = sinon.stub()
   const addVideoWrapper = shallow(<AddVideo onSaveAddedVideo={onSaveAddedVideo} />)
   const addButton = addVideoWrapper.find('form').find('button')

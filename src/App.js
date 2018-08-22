@@ -34,13 +34,17 @@ class App extends Component {
     this.setState({view: 'edit_video'})
   }
 
+  onSaveEditedVideo = () => {
+    this.setState({view: 'video_list'})
+  }
+
   render() {
     let visible_content
 
     if (this.state.view ==='add_video') {
       visible_content =
         <div>
-          <AddVideo onSaveAddedVideo={this.onSaveAddedVideo}/>
+          <AddVideo onSaveAddedVideo={this.onSaveAddedVideo} />
         </div>
     } else if (this.state.view ==='video_list')  {
       visible_content =
@@ -51,7 +55,7 @@ class App extends Component {
     } else if (this.state.view ==='edit_video') {
       visible_content =
       <div>
-        <EditVideo />
+        <EditVideo onSaveEditedVideo={this.onSaveEditedVideo} />
       </div>
     }
 
