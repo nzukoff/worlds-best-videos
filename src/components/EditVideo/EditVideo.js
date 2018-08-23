@@ -19,10 +19,24 @@ class EditVideo extends Component {
   render() {
     return (
       <div className="EditVideo">
-        <form>
-          <input name='title' value={this.state.title} onChange={this.editTitle}/>
-          <button name='delete' type='button' onClick={() => this.props.onDeleteVideo(this.props.index)}>Delete</button>
-          <button name='enter' type='button' onClick={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>Save</button>
+        <form onSubmit={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <input name='title' value={this.state.title} onChange={this.editTitle} autoFocus />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-2">
+                <button name='delete' type='button' className="btn btn-danger" onClick={() => this.props.onDeleteVideo(this.props.index)}>Delete</button>
+              </div>
+              <div className="col-2">
+                <button name='enter' type='button' className="btn btn-secondary" onClick={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>Save</button>
+              </div>
+              <div className="col">
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     );

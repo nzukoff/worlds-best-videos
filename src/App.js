@@ -24,10 +24,14 @@ class App extends Component {
   }
 
   onSaveAddedVideo = (newVideo) => {
-    this.setState((prevState) => ({
-                    videos: [...prevState.videos, newVideo],
-                    view: 'video_list'
-                  }))
+    if (newVideo.title !== '') {
+      this.setState((prevState) => ({
+                      videos: [...prevState.videos, newVideo],
+                      view: 'video_list'
+                    }))
+    } else {
+      this.setState({view: 'video_list'})
+    }
   }
 
   onEditVideo = (index) => {
@@ -35,13 +39,18 @@ class App extends Component {
   }
 
   onSaveEditedVideo = (index, newVideo) => {
-    this.setState((prevState) => {
-                    const newVideos = prevState.videos.slice(0)
-                    newVideos[index] = newVideo
-                    return({
-                      videos: newVideos,
-                      view: 'video_list'
-                    })})
+    if (newVideo.title !== '') {
+      this.setState((prevState) => {
+                      const newVideos = prevState.videos.slice(0)
+                      newVideos[index] = newVideo
+                      return({
+                        videos: newVideos,
+                        view: 'video_list'
+                      })
+                    })
+    } else {
+      this.setState({view: 'video_list'})
+    }
   }
 
   onDeleteVideo = (index) => {
@@ -59,28 +68,42 @@ class App extends Component {
 
     if (this.state.view ==='add_video') {
       visible_content =
-        <div>
-          <AddVideo onSaveAddedVideo={this.onSaveAddedVideo} />
-        </div>
-    } else if (this.state.view ==='video_list')  {
-      visible_content =
-        <div>
-          <button onClick={this.onAddVideo}>Add Video</button>
-          <VideoList onEditVideo={this.onEditVideo} videos={this.state.videos} />
+        <div className="row">
+          <div className="col">
+            <AddVideo onSaveAddedVideo={this.onSaveAddedVideo} />
+          </div>
         </div>
     } else if (this.state.view ==='edit_video') {
       visible_content =
-      <div>
-        <EditVideo index={this.state.editing_index} videos={this.state.videos} onDeleteVideo={this.onDeleteVideo} onSaveEditedVideo={this.onSaveEditedVideo} />
-      </div>
+        <div className="row">
+          <div className="col">
+            <EditVideo index={this.state.editing_index} videos={this.state.videos} onDeleteVideo={this.onDeleteVideo} onSaveEditedVideo={this.onSaveEditedVideo} />
+          </div>
+        </div>
+    } else if (this.state.view ==='video_list') {
+      visible_content =
+        <div className="row">
+          <div className="col">
+            <VideoList onEditVideo={this.onEditVideo} videos={this.state.videos} />
+          </div>
+          <div className="col">
+            <button type='button' className="btn btn-secondary" onClick={this.onAddVideo}>Add Video</button>
+          </div>
+        </div>
     }
 
     return(
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="logo" alt="logo" />
-        </header>
-        {visible_content}
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <img src={logo} className="logo" alt="logo" />
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          {visible_content}
+        </div>
       </div>
     );
   }

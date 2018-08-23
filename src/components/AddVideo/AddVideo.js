@@ -18,9 +18,9 @@ class AddVideo extends Component {
   render() {
     return (
       <div className="AddVideo">
-        <form>
-          <input name='title' value={this.state.title} onChange={this.editTitle}/>
-          <button type='button' onClick={() => this.props.onSaveAddedVideo(this.state)}>Add</button>
+        <form onSubmit={() => this.props.onSaveAddedVideo(this.state)}>
+          <input name='title' value={this.state.title} onChange={this.editTitle} autoFocus />
+          <button type='button' className="btn btn-secondary" onClick={() => this.props.onSaveAddedVideo(this.state)}>Add</button>
         </form>
       </div>
     );
