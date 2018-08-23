@@ -20,7 +20,7 @@ class AddVideo extends Component {
       <div className="AddVideo">
         <form>
           <input name='title' value={this.state.title} onChange={this.editTitle}/>
-          <button onClick={() => this.props.onSaveAddedVideo(this.state)}>Add</button>
+          <button type='button' onClick={() => this.props.onSaveAddedVideo(this.state)}>Add</button>
         </form>
       </div>
     );

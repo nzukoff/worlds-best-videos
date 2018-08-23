@@ -44,6 +44,10 @@ class App extends Component {
                     })})
   }
 
+  onDeleteVideo = () => {
+    this.setState({view: 'video_list'})
+  }
+
   render() {
     let visible_content
 
@@ -61,7 +65,7 @@ class App extends Component {
     } else if (this.state.view ==='edit_video') {
       visible_content =
       <div>
-        <EditVideo index={this.state.editing_index} videos={this.state.videos} onSaveEditedVideo={this.onSaveEditedVideo} />
+        <EditVideo index={this.state.editing_index} videos={this.state.videos} onDeleteVideo={this.onDeleteVideo} onSaveEditedVideo={this.onSaveEditedVideo} />
       </div>
     }
 

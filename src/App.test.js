@@ -149,3 +149,17 @@ it('shows a video in the video list when one is edited and saved', () => {
   expect(appWrapper.state().videos).toHaveLength(2)
   expect(appWrapper.state().videos[1]).toEqual(expected)
 })
+
+it('clicking "Delete" button from the edit video page takes the user to the video list page', () => {
+  // Setup
+  const appWrapper = shallow(<App />);
+  appWrapper.setState({view: 'edit_video'})
+
+  // Exercise
+  appWrapper.instance().onDeleteVideo()
+
+  // Assert
+  expect(appWrapper.state().view).toEqual('video_list')
+  const videoList = appWrapper.find(VideoList)
+  expect(videoList).toHaveLength(1);
+});

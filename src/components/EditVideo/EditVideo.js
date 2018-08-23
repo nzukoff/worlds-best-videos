@@ -21,7 +21,8 @@ class EditVideo extends Component {
       <div className="EditVideo">
         <form>
           <input name='title' value={this.state.title} onChange={this.editTitle}/>
-          <button onClick={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>Save</button>
+          <button name='delete' type='button' onClick={() => this.props.onDeleteVideo(this.props.index)}>Delete</button>
+          <button name='enter' type='button' onClick={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>Save</button>
         </form>
       </div>
     );
