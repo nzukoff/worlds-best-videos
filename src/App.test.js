@@ -79,6 +79,7 @@ it('onSaveAddedVideo is passed from App to AddVideo correctly', () => {
 it('shows a video in the video list when one is added', () => {
   // Setup
   const appWrapper = shallow(<App />)
+  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
   const expected = {title: 'Brazil'}
   const videoList = appWrapper.find(VideoList)
 
@@ -86,6 +87,7 @@ it('shows a video in the video list when one is added', () => {
   appWrapper.instance().onSaveAddedVideo(expected)
 
   // Assert
+  expect(appWrapper.state().videos).toHaveLength(3)
   expect(appWrapper.state().videos).toContainEqual(expected)
 })
 
@@ -125,3 +127,25 @@ it('clicking "Save" button from the edit video page takes the user to the video 
   const videoList = appWrapper.find(VideoList)
   expect(videoList).toHaveLength(1);
 });
+
+it('onSaveEditedVideo is passed from App to EditVideo correctly', () => {
+  const appWrapper = shallow(<App />);
+  appWrapper.setState({view: 'edit_video'})
+  const editVideo = appWrapper.find(EditVideo)
+  expect(editVideo.props().onSaveEditedVideo).toEqual(appWrapper.instance().onSaveEditedVideo);
+})
+
+it('shows a video in the video list when one is edited and saved', () => {
+  // Setup
+  const appWrapper = shallow(<App />)
+  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
+  const expected = {title: 'Brazil'}
+  const videoList = appWrapper.find(VideoList)
+
+  // Exercise
+  appWrapper.instance().onSaveEditedVideo(1, expected)
+
+  // Assert
+  expect(appWrapper.state().videos).toHaveLength(2)
+  expect(appWrapper.state().videos[1]).toEqual(expected)
+})

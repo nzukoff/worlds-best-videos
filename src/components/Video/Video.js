@@ -8,7 +8,7 @@ class VideoList extends Component {
   render() {
     return (
       <div className="Video">
-        <h3><a onClick={() => this.props.onEditVideo()}>{this.props.title}</a></h3>
+        <h3><a onClick={() => this.props.onEditVideo(this.props.index)}>{this.props.title}</a></h3>
       </div>
     );
   }

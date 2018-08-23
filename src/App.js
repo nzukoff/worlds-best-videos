@@ -19,6 +19,10 @@ class App extends Component {
     }
   }
 
+  onAddVideo = () => {
+    this.setState({view: 'add_video'})
+  }
+
   onSaveAddedVideo = (newVideo) => {
     this.setState((prevState) => ({
                     videos: [...prevState.videos, newVideo],
@@ -26,16 +30,18 @@ class App extends Component {
                   }))
   }
 
-  onAddVideo = () => {
-    this.setState({view: 'add_video'})
+  onEditVideo = (index) => {
+    this.setState({view: 'edit_video', editing_index: index})
   }
 
-  onEditVideo = () => {
-    this.setState({view: 'edit_video'})
-  }
-
-  onSaveEditedVideo = () => {
-    this.setState({view: 'video_list'})
+  onSaveEditedVideo = (index, newVideo) => {
+    this.setState((prevState) => {
+                    const newVideos = prevState.videos.slice(0)
+                    newVideos[index] = newVideo
+                    return({
+                      videos: newVideos,
+                      view: 'video_list'
+                    })})
   }
 
   render() {
@@ -55,7 +61,7 @@ class App extends Component {
     } else if (this.state.view ==='edit_video') {
       visible_content =
       <div>
-        <EditVideo onSaveEditedVideo={this.onSaveEditedVideo} />
+        <EditVideo index={this.state.editing_index} videos={this.state.videos} onSaveEditedVideo={this.onSaveEditedVideo} />
       </div>
     }
 

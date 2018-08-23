@@ -9,7 +9,7 @@ class VideoList extends Component {
   render() {
     return (
       <div className="VideoList">
-        {this.props.videos.map((video, i) => <Video key={i} title={video.title} onEditVideo={this.props.onEditVideo} />)}
+        {this.props.videos.map((video, i) => <Video key={i} index={i} title={video.title} onEditVideo={this.props.onEditVideo} />)}
       </div>
     );
   }
