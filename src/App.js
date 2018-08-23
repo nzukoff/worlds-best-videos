@@ -44,8 +44,14 @@ class App extends Component {
                     })})
   }
 
-  onDeleteVideo = () => {
-    this.setState({view: 'video_list'})
+  onDeleteVideo = (index) => {
+    this.setState((prevState) => {
+                    const newVideos = prevState.videos.slice(0)
+                    newVideos.splice(index, 1)
+                    return({
+                      videos: newVideos,
+                      view: 'video_list'
+                    })})
   }
 
   render() {

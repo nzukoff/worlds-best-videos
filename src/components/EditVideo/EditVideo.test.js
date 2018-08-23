@@ -50,7 +50,7 @@ it('displays a delete button', () => {
   // Setup
   const editVideoWrapper = shallow(<EditVideo index={0} videos={[{title: 'Jaws II'}]} />)
   const deleteButton = editVideoWrapper.find('form').find({name: 'delete'})
-  
+
   // Assert
   expect(deleteButton).toHaveLength(1)
 })
@@ -66,4 +66,14 @@ it('contains a "Delete" button that calls a handler', () => {
 
   // Assert
   expect(onDeleteVideo.calledOnce).toBe(true)
+})
+
+it('saves video when "Save" clicked', () => {
+  const onDeleteVideo = sinon.stub()
+  const editVideoWrapper = shallow(<EditVideo index={1} videos={[{title: 'Jaws II'}, {title: 'A Few Good Men'}]} onDeleteVideo={onDeleteVideo} />)
+  const deleteButton = editVideoWrapper.find('form').find({name: 'delete'})
+  expect(deleteButton).toHaveLength(1)
+  deleteButton.simulate('click')
+  expect(onDeleteVideo.calledOnce).toBe(true)
+  expect(onDeleteVideo.calledWith(1)).toBe(true)
 })

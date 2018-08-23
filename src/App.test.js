@@ -81,7 +81,6 @@ it('shows a video in the video list when one is added', () => {
   const appWrapper = shallow(<App />)
   appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
   const expected = {title: 'Brazil'}
-  const videoList = appWrapper.find(VideoList)
 
   // Exercise
   appWrapper.instance().onSaveAddedVideo(expected)
@@ -140,7 +139,6 @@ it('shows a video in the video list when one is edited and saved', () => {
   const appWrapper = shallow(<App />)
   appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
   const expected = {title: 'Brazil'}
-  const videoList = appWrapper.find(VideoList)
 
   // Exercise
   appWrapper.instance().onSaveEditedVideo(1, expected)
@@ -163,3 +161,17 @@ it('clicking "Delete" button from the edit video page takes the user to the vide
   const videoList = appWrapper.find(VideoList)
   expect(videoList).toHaveLength(1);
 });
+
+it('video list page no longer shows video when it is deleted', () => {
+  // Setup
+  const appWrapper = shallow(<App />)
+  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
+  const expected = [{title: 'Star Wars'}]
+
+  // Exercise
+  appWrapper.instance().onDeleteVideo(1)
+
+  // Assert
+  expect(appWrapper.state().videos).toHaveLength(1)
+  expect(appWrapper.state().videos).toEqual(expected)
+})

@@ -9,5 +9,5 @@
 [X] Given that I have made updates to videos, when I am on the list page, I should see the modified information.
 [X] Given that I am on the edit page, then I see a delete button.
 [X] Given that I am on the edit page, when I click the delete button, then I am taken back to the list page.
-Given that I have deleted a video, when I am on the list page, then I no longer see the deleted video.
+[X] Given that I have deleted a video, when I am on the list page, then I no longer see the deleted video.
 As Mark, I want to get an email when new versions arrive, so that I can use the latest features. Given that I am registered with CI, when a new version is deployed, then I receive an email
