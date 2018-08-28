@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import logo from './logo.jpg';
 import './App.css';
 import VideoList from './components/VideoList/VideoList'
@@ -30,7 +31,7 @@ class App extends Component {
                       view: 'video_list'
                     }))
     } else {
-      this.setState({view: 'video_list'})
+      this.props.setView('video_list')
     }
   }
 
@@ -109,4 +110,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => (view: state)
+
+const mapDispatchToProps = dispatch => ({
+  setView: (view) => dispatch({type: 'SET_VIEW', view})
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+
+//export default App;
