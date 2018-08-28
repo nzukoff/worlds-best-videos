@@ -5,23 +5,12 @@ import './App.css';
 import VideoList from './components/VideoList/VideoList'
 import AddVideo from './components/AddVideo/AddVideo'
 import EditVideo from './components/EditVideo/EditVideo'
+import { setView } from './actions/index'
 
 
 class App extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      view: 'video_list',
-      videos: [
-        {title: 'Star Wars'},
-        {title: 'Star Trek II'}
-      ]
-    }
-  }
-
-  onAddVideo = () => {
-    this.setState({view: 'add_video'})
   }
 
   onSaveAddedVideo = (newVideo) => {
@@ -35,9 +24,6 @@ class App extends Component {
     }
   }
 
-  onEditVideo = (index) => {
-    this.setState({view: 'edit_video', editing_index: index})
-  }
 
   onSaveEditedVideo = (index, newVideo) => {
     if (newVideo.title !== '') {
@@ -50,7 +36,7 @@ class App extends Component {
                       })
                     })
     } else {
-      this.setState({view: 'video_list'})
+      this.props.setView('video_list')
     }
   }
 
@@ -67,28 +53,28 @@ class App extends Component {
   render() {
     let visible_content
 
-    if (this.state.view ==='add_video') {
+    if (this.props.view ==='add_video') {
       visible_content =
         <div className="row">
           <div className="col">
             <AddVideo onSaveAddedVideo={this.onSaveAddedVideo} />
           </div>
         </div>
-    } else if (this.state.view ==='edit_video') {
+    } else if (this.props.view ==='edit_video') {
       visible_content =
         <div className="row">
           <div className="col">
             <EditVideo index={this.state.editing_index} videos={this.state.videos} onDeleteVideo={this.onDeleteVideo} onSaveEditedVideo={this.onSaveEditedVideo} />
           </div>
         </div>
-    } else if (this.state.view ==='video_list') {
+    } else if (this.props.view ==='video_list') {
       visible_content =
         <div className="row">
           <div className="col">
-            <VideoList onEditVideo={this.onEditVideo} videos={this.state.videos} />
+            <VideoList />
           </div>
           <div className="col">
-            <button type='button' className="btn btn-secondary" onClick={this.onAddVideo}>Add Video</button>
+            <button type='button' className="btn btn-secondary" onClick={() => this.props.setView('add_video')}>Add Video</button>
           </div>
         </div>
     }
@@ -110,15 +96,12 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => (view: state)
+const mapStateToProps = state => ({view: state.view})
 
 const mapDispatchToProps = dispatch => ({
-  setView: (view) => dispatch({type: 'SET_VIEW', view})
+  setView: (view) => dispatch(setView(view))
 })
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(App)
-
-//export default App;

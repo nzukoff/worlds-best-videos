@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
-class VideoList extends Component {
+import { editVideo } from '../../actions/index'
+
+class Video extends Component {
   constructor(props) {
     super(props);
   }
@@ -8,10 +11,17 @@ class VideoList extends Component {
   render() {
     return (
       <div className="Video">
-        <h3><a onClick={() => this.props.onEditVideo(this.props.index)}>{this.props.title}</a></h3>
+        <h3><a onClick={() => this.props.editVideo(this.props.index)}>{this.props.title}</a></h3>
       </div>
     );
   }
 }
 
-export default VideoList;
+const mapDispatchToProps = dispatch => ({
+  editVideo: (index) => dispatch(editVideo(index))
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Video)

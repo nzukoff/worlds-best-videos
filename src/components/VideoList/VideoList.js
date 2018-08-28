@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
 import Video from '../Video/Video';
 
 class VideoList extends Component {
@@ -9,10 +11,16 @@ class VideoList extends Component {
   render() {
     return (
       <div className="VideoList">
-        {this.props.videos.map((video, i) => <Video key={i} index={i} title={video.title} onEditVideo={this.props.onEditVideo} />)}
+        {this.props.videos.map((video, i) => <Video key={i} index={i} title={video.title} />)}
       </div>
     );
   }
 }
 
-export default VideoList;
+const mapStateToProps = state => {
+  return {videos: state.videos}
+}
+
+export default connect(
+  mapStateToProps
+)(VideoList)
