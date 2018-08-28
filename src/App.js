@@ -5,49 +5,12 @@ import './App.css';
 import VideoList from './components/VideoList/VideoList'
 import AddVideo from './components/AddVideo/AddVideo'
 import EditVideo from './components/EditVideo/EditVideo'
-import { setView } from './actions/index'
+import { addVideo } from './actions/index'
 
 
 class App extends Component {
   constructor(props) {
     super(props)
-  }
-
-  onSaveAddedVideo = (newVideo) => {
-    if (newVideo.title !== '') {
-      this.setState((prevState) => ({
-                      videos: [...prevState.videos, newVideo],
-                      view: 'video_list'
-                    }))
-    } else {
-      this.props.setView('video_list')
-    }
-  }
-
-
-  onSaveEditedVideo = (index, newVideo) => {
-    if (newVideo.title !== '') {
-      this.setState((prevState) => {
-                      const newVideos = prevState.videos.slice(0)
-                      newVideos[index] = newVideo
-                      return({
-                        videos: newVideos,
-                        view: 'video_list'
-                      })
-                    })
-    } else {
-      this.props.setView('video_list')
-    }
-  }
-
-  onDeleteVideo = (index) => {
-    this.setState((prevState) => {
-                    const newVideos = prevState.videos.slice(0)
-                    newVideos.splice(index, 1)
-                    return({
-                      videos: newVideos,
-                      view: 'video_list'
-                    })})
   }
 
   render() {
@@ -64,7 +27,7 @@ class App extends Component {
       visible_content =
         <div className="row">
           <div className="col">
-            <EditVideo index={this.state.editing_index} videos={this.state.videos} onDeleteVideo={this.onDeleteVideo} onSaveEditedVideo={this.onSaveEditedVideo} />
+            <EditVideo  />
           </div>
         </div>
     } else if (this.props.view ==='video_list') {
@@ -74,7 +37,7 @@ class App extends Component {
             <VideoList />
           </div>
           <div className="col">
-            <button type='button' className="btn btn-secondary" onClick={() => this.props.setView('add_video')}>Add Video</button>
+            <button type='button' className="btn btn-secondary" onClick={() => this.props.addVideo()}>Add Video</button>
           </div>
         </div>
     }
@@ -99,8 +62,9 @@ class App extends Component {
 const mapStateToProps = state => ({view: state.view})
 
 const mapDispatchToProps = dispatch => ({
-  setView: (view) => dispatch(setView(view))
+  addVideo: () => dispatch(addVideo())
 })
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

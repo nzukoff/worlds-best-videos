@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
+import { saveAddedVideo, updateTitle } from '../../actions/index'
 
 class AddVideo extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {title: ''}
   }
 
   editTitle = (event) => {
@@ -12,19 +13,31 @@ class AddVideo extends Component {
     const field = target.name
     const value = target.value
 
-    this.setState({[field]: value})
+    this.props.updateTitle(value)
   }
 
   render() {
     return (
       <div className="AddVideo">
-        <form onSubmit={() => this.props.onSaveAddedVideo(this.state)}>
-          <input name='title' value={this.state.title} onChange={this.editTitle} autoFocus />
-          <button type='button' className="btn btn-secondary" onClick={() => this.props.onSaveAddedVideo(this.state)}>Add</button>
+        <form onSubmit={() => this.props.saveAddedVideo(this.props.updatedTitle)}>
+          <input name='title' value={this.props.updatedTitle} onChange={this.editTitle} autoFocus />
+          <button type='button' className="btn btn-secondary" onClick={() => this.props.saveAddedVideo(this.props.updatedTitle)}>Add</button>
         </form>
       </div>
     );
   }
 }
 
-export default AddVideo;
+const mapStateToProps = state => ({
+  updatedTitle: state.updatedTitle
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateTitle: (title) => dispatch(updateTitle(title)),
+  saveAddedVideo: (title) => dispatch(saveAddedVideo(title))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddVideo)

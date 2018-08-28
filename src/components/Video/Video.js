@@ -11,14 +11,14 @@ class Video extends Component {
   render() {
     return (
       <div className="Video">
-        <h3><a onClick={() => this.props.editVideo(this.props.index)}>{this.props.title}</a></h3>
+        <h3><a onClick={() => this.props.editVideo(this.props.index, this.props.title)}>{this.props.title}</a></h3>
       </div>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  editVideo: (index) => dispatch(editVideo(index))
+  editVideo: (index, title) => dispatch(editVideo(index, title))
 })
 
 export default connect(

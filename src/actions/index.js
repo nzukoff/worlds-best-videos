@@ -1,10 +1,40 @@
-export const setView = (view) => ({  
+export const setView = (view) => ({
   type: 'SET_VIEW',
   view: view
 })
 
-export const editVideo = (index) => ({
+export const updateTitle = (title) => ({
+  type: 'UPDATE_TITLE',
+  title
+})
+
+export const addVideo = (index, title) => ({
+  type: 'ADD_VIDEO',
+  view: 'add_video'
+})
+
+export const saveAddedVideo = (title) => ({
+  type: 'SAVE_ADDED_VIDEO',
+  view: 'video_list',
+  title
+})
+
+export const editVideo = (index, title) => ({
   type: 'EDIT_VIDEO',
   view: 'edit_video',
+  index,
+  title
+})
+
+export const saveEditedVideo = (index, title) => ({
+  type: 'SAVE_EDITED_VIDEO',
+  view: 'video_list',
+  index,
+  title
+})
+
+export const deleteVideo = (index) => ({
+  type: 'DELETE_VIDEO',
+  view: 'video_list',
   index
 })

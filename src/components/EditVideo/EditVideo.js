@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
+import { saveEditedVideo, deleteVideo, updateTitle } from '../../actions/index'
 
 class EditVideo extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {title: this.props.videos[this.props.index]['title']}
   }
 
   editTitle = (event) => {
@@ -12,26 +13,25 @@ class EditVideo extends Component {
     const field = target.name
     const value = target.value
 
-    this.setState({[field]: value})
+    this.props.updateTitle(value)
   }
 
-  componentDidMount
   render() {
     return (
       <div className="EditVideo">
-        <form onSubmit={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>
+        <form onSubmit={() => this.props.saveEditedVideo(this.props.editingIndex, this.props.updatedTitle)}>
           <div className="container">
             <div className="row">
               <div className="col">
-                <input name='title' value={this.state.title} onChange={this.editTitle} autoFocus />
+                <input name='title' value={this.props.updatedTitle} onChange={this.editTitle} autoFocus />
               </div>
             </div>
             <div className="row">
               <div className="col-2">
-                <button name='delete' type='button' className="btn btn-danger" onClick={() => this.props.onDeleteVideo(this.props.index)}>Delete</button>
+                <button name='delete' type='button' className="btn btn-danger" onClick={() => this.props.deleteVideo(this.props.editingIndex)}>Delete</button>
               </div>
               <div className="col-2">
-                <button name='enter' type='button' className="btn btn-secondary" onClick={() => this.props.onSaveEditedVideo(this.props.index, this.state)}>Save</button>
+                <button name='enter' type='button' className="btn btn-secondary" onClick={() => this.props.saveEditedVideo(this.props.editingIndex, this.props.updatedTitle)}>Save</button>
               </div>
               <div className="col">
               </div>
@@ -43,4 +43,19 @@ class EditVideo extends Component {
   }
 }
 
-export default EditVideo;
+const mapStateToProps = state => ({
+  videos: state.videos,
+  editingIndex: state.editingIndex,
+  updatedTitle: state.updatedTitle
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateTitle: (title) => dispatch(updateTitle(title)),
+  saveEditedVideo: (index, title) => dispatch(saveEditedVideo(index, title)),
+  deleteVideo: (index) => dispatch(deleteVideo(index))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditVideo)
