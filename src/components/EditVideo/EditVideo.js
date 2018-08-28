@@ -15,7 +15,6 @@ class EditVideo extends Component {
     this.setState({[field]: value})
   }
 
-  componentDidMount
   render() {
     return (
       <div className="EditVideo">

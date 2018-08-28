@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class VideoList extends Component {
+class Video extends Component {
   constructor(props) {
     super(props);
   }
@@ -14,4 +14,4 @@ class VideoList extends Component {
   }
 }
 
-export default VideoList;
+export default Video;
