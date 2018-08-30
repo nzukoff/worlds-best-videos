@@ -1,32 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 
 import { saveAddedVideo, updateTitle } from '../../actions/index'
 
-class AddVideo extends Component {
-  constructor(props) {
-    super(props)
-  }
+const editTitle = (event, updateTitle) => {
+  const target = event.target
+  const value = target.value
 
-  editTitle = (event) => {
-    const target = event.target
-    const field = target.name
-    const value = target.value
-
-    this.props.updateTitle(value)
-  }
-
-  render() {
-    return (
-      <div className="AddVideo">
-        <form onSubmit={() => this.props.saveAddedVideo(this.props.updatedTitle)}>
-          <input name='title' value={this.props.updatedTitle} onChange={this.editTitle} autoFocus />
-          <button type='button' className="btn btn-secondary" onClick={() => this.props.saveAddedVideo(this.props.updatedTitle)}>Add</button>
-        </form>
-      </div>
-    );
-  }
+  updateTitle(value)
 }
+
+const AddVideo = (props) => (
+  <div className="AddVideo">
+    <form onSubmit={() => props.saveAddedVideo(props.updatedTitle)}>
+      <input name='title' value={props.updatedTitle} onChange={(e) => editTitle(e, props.updateTitle)} autoFocus />
+      <button type='button' className="btn btn-secondary" onClick={() => props.saveAddedVideo(props.updatedTitle)}>Add</button>
+    </form>
+  </div>
+)
 
 const mapStateToProps = state => ({
   updatedTitle: state.updatedTitle

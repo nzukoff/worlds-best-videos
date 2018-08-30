@@ -1,47 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 
 import { saveEditedVideo, deleteVideo, updateTitle } from '../../actions/index'
 
-class EditVideo extends Component {
-  constructor(props) {
-    super(props)
-  }
+const editTitle = (event, updateTitle) => {
+  const target = event.target
+  const value = target.value
 
-  editTitle = (event) => {
-    const target = event.target
-    const field = target.name
-    const value = target.value
-
-    this.props.updateTitle(value)
-  }
-
-  render() {
-    return (
-      <div className="EditVideo">
-        <form onSubmit={() => this.props.saveEditedVideo(this.props.editingIndex, this.props.updatedTitle)}>
-          <div className="container">
-            <div className="row">
-              <div className="col">
-                <input name='title' value={this.props.updatedTitle} onChange={this.editTitle} autoFocus />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-2">
-                <button name='delete' type='button' className="btn btn-danger" onClick={() => this.props.deleteVideo(this.props.editingIndex)}>Delete</button>
-              </div>
-              <div className="col-2">
-                <button name='enter' type='button' className="btn btn-secondary" onClick={() => this.props.saveEditedVideo(this.props.editingIndex, this.props.updatedTitle)}>Save</button>
-              </div>
-              <div className="col">
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    );
-  }
+  updateTitle(value)
 }
+
+const EditVideo = (props) => (
+  <div className="EditVideo">
+    <form onSubmit={() => props.saveEditedVideo(props.editingIndex, props.updatedTitle)}>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <input name='title' value={props.updatedTitle} onChange={(e) => editTitle(e, props.updateTitle)} autoFocus />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-2">
+            <button name='delete' type='button' className="btn btn-danger" onClick={() => props.deleteVideo(props.editingIndex)}>Delete</button>
+          </div>
+          <div className="col-2">
+            <button name='enter' type='button' className="btn btn-secondary" onClick={() => props.saveEditedVideo(props.editingIndex, props.updatedTitle)}>Save</button>
+          </div>
+          <div className="col">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+)
 
 const mapStateToProps = state => ({
   videos: state.videos,

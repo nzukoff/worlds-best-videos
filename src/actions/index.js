@@ -1,13 +1,3 @@
-export const setView = (view) => ({
-  type: 'SET_VIEW',
-  view: view
-})
-
-export const updateTitle = (title) => ({
-  type: 'UPDATE_TITLE',
-  title
-})
-
 export const addVideo = (index, title) => ({
   type: 'ADD_VIDEO',
   view: 'add_video'
@@ -37,4 +27,9 @@ export const deleteVideo = (index) => ({
   type: 'DELETE_VIDEO',
   view: 'video_list',
   index
+})
+
+export const updateTitle = (title) => ({
+  type: 'UPDATE_TITLE',
+  title
 })

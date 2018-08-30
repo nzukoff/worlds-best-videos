@@ -29,12 +29,6 @@ const rootReducer = (state = initialState, action) => {
         })
       }
 
-    case 'UPDATE_TITLE':
-      return({
-        ...state,
-        updatedTitle: action.title
-      })
-
     case 'EDIT_VIDEO':
       return({
         ...state,
@@ -68,9 +62,22 @@ const rootReducer = (state = initialState, action) => {
         videos: newVideos
       })
 
+    case 'UPDATE_TITLE':
+      return({
+        ...state,
+        updatedTitle: action.title
+      })
+
     default:
       return (state)
   }
 }
 
+// import { combineReducers } from 'redux'
+// import view from './view'
+// ​
+// export default combineReducers({
+//   view,
+//   videos
+// })
 export default rootReducer

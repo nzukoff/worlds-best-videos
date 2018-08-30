@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
+
 import logo from './logo.jpg';
 import './App.css';
 import VideoList from './components/VideoList/VideoList'
@@ -7,56 +8,49 @@ import AddVideo from './components/AddVideo/AddVideo'
 import EditVideo from './components/EditVideo/EditVideo'
 import { addVideo } from './actions/index'
 
+const App = (props) => {
+  let visible_content
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    let visible_content
-
-    if (this.props.view ==='add_video') {
-      visible_content =
-        <div className="row">
-          <div className="col">
-            <AddVideo onSaveAddedVideo={this.onSaveAddedVideo} />
-          </div>
-        </div>
-    } else if (this.props.view ==='edit_video') {
-      visible_content =
-        <div className="row">
-          <div className="col">
-            <EditVideo  />
-          </div>
-        </div>
-    } else if (this.props.view ==='video_list') {
-      visible_content =
-        <div className="row">
-          <div className="col">
-            <VideoList />
-          </div>
-          <div className="col">
-            <button type='button' className="btn btn-secondary" onClick={() => this.props.addVideo()}>Add Video</button>
-          </div>
-        </div>
-    }
-
-    return(
-      <div className="App">
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <img src={logo} className="logo" alt="logo" />
-            </div>
-          </div>
-        </div>
-        <div className="container">
-          {visible_content}
+  if (props.view ==='add_video') {
+    visible_content =
+      <div className="row">
+        <div className="col">
+          <AddVideo />
         </div>
       </div>
-    );
+  } else if (props.view ==='edit_video') {
+    visible_content =
+      <div className="row">
+        <div className="col">
+          <EditVideo  />
+        </div>
+      </div>
+  } else if (props.view ==='video_list') {
+    visible_content =
+      <div className="row">
+        <div className="col">
+          <VideoList />
+        </div>
+        <div className="col">
+          <button type='button' className="btn btn-secondary" onClick={() => props.addVideo()}>Add Video</button>
+        </div>
+      </div>
   }
+
+  return(
+    <div className="App">
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <img src={logo} className="logo" alt="logo" />
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        {visible_content}
+      </div>
+    </div>
+  )
 }
 
 const mapStateToProps = state => ({view: state.view})
