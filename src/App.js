@@ -8,7 +8,7 @@ import AddVideo from './components/AddVideo/AddVideo'
 import EditVideo from './components/EditVideo/EditVideo'
 import { addVideo } from './actions/index'
 
-const App = (props) => {
+export const App = (props) => {
   let visible_content
 
   if (props.view ==='add_video') {
