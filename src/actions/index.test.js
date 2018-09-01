@@ -1,8 +1,3 @@
-//need to test that addVideo action creator returns the correct values when called
-//correlates with 'clicking the "Add Video" button takes the user to the add video page' test
-
-
-
 import * as actions from './index'
 
 describe('actions', () => {
@@ -26,29 +21,50 @@ describe('actions', () => {
     expect(actions.saveAddedVideo(title)).toEqual(expectedAction)
   })
 
-// export const editVideo = (index, title) => ({
-//   type: 'EDIT_VIDEO',
-//   view: 'edit_video',
-//   index,
-//   title
-// })
-//
-// export const saveEditedVideo = (index, title) => ({
-//   type: 'SAVE_EDITED_VIDEO',
-//   view: 'video_list',
-//   index,
-//   title
-// })
-//
-// export const deleteVideo = (index) => ({
-//   type: 'DELETE_VIDEO',
-//   view: 'video_list',
-//   index
-// })
-//
-// export const updateTitle = (title) => ({
-//   type: 'UPDATE_TITLE',
-//   title
-// })
+  it('should create an action to edit a selected video', () => {
+    const index = 1
+    const title = 'Brazil'
+    const expectedAction = {
+      type: 'EDIT_VIDEO',
+      view: 'edit_video',
+      index: 1,
+      title: 'Brazil'
+    }
 
+    expect(actions.editVideo(index, title)).toEqual(expectedAction)
+  })
+
+  it('should create an action to save an edited video', () => {
+    const index = 1
+    const title = 'Brazil'
+    const expectedAction = {
+      type: 'SAVE_EDITED_VIDEO',
+      view: 'video_list',
+      index: 1,
+      title: 'Brazil'
+    }
+
+    expect(actions.saveEditedVideo(index, title)).toEqual(expectedAction)
+  })
+
+  it('should create an action to delete a video', () => {
+    const index = 1
+    const expectedAction = {
+      type: 'DELETE_VIDEO',
+      view: 'video_list',
+      index: 1
+    }
+
+    expect(actions.deleteVideo(index)).toEqual(expectedAction)
+  })
+
+  it('should create an action to update a video title', () => {
+    const title = 'Brazil'
+    const expectedAction = {
+      type: 'UPDATE_TITLE',
+      title: 'Brazil'
+    }
+
+    expect(actions.updateTitle(title)).toEqual(expectedAction)
+  })
 })
