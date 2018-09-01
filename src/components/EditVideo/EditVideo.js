@@ -10,7 +10,7 @@ const editTitle = (event, updateTitle) => {
   updateTitle(value)
 }
 
-const EditVideo = (props) => (
+export const EditVideo = (props) => (
   <div className="EditVideo">
     <form onSubmit={() => props.saveEditedVideo(props.editingIndex, props.updatedTitle)}>
       <div className="container">

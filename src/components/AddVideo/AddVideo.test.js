@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AddVideo from './AddVideo';
+import { AddVideo } from './AddVideo';
 import Video from '../Video/Video';
 import App from '../../App'
 import { shallow } from 'enzyme';
@@ -10,35 +10,32 @@ it('creates a means to add a new video', () => {
   const addVideoWrapper = shallow(<AddVideo />)
 })
 
-it('contains an "Add" button that calls a handler', () => {
-  const onSaveAddedVideo = sinon.stub()
-  const addVideoWrapper = shallow(<AddVideo onSaveAddedVideo={onSaveAddedVideo} />)
-  const addButton = addVideoWrapper.find('form').find('button')
-  expect(addButton).toHaveLength(1)
+it('contains an "Add" button that calls the action creator', () => {
+  // Setup
+  const saveAddedVideo = sinon.stub()
+  const updatedTitle = 'Jaws'
+  const addVideoWrapper = shallow(<AddVideo saveAddedVideo={saveAddedVideo} updatedTitle={updatedTitle} />);
+  const addButton = addVideoWrapper.find('button')
+
+  // Exercise
   addButton.simulate('click')
-  expect(onSaveAddedVideo.calledOnce).toBe(true)
+
+  // Assert
+  expect(addButton).toHaveLength(1)
+  expect(saveAddedVideo.calledOnce).toBe(true)
+  expect(saveAddedVideo.calledWith('Jaws')).toBe(true)
 })
 
-it('creates a video when "Add" clicked', () => {
+it('calls the action creator when the title field changes', () => {
   // Setup
-  const onSaveAddedVideo = sinon.stub()
-  const addVideoWrapper = shallow(<AddVideo onSaveAddedVideo={onSaveAddedVideo} />)
-  addVideoWrapper.setState({title: "A Few Good Men"})
-  const addButton = addVideoWrapper.find('form').find('button')
-  expect(addButton).toHaveLength(1)
-  addButton.simulate('click')
-  expect(onSaveAddedVideo.calledOnce).toBe(true)
-  expect(onSaveAddedVideo.calledWith({title: 'A Few Good Men'})).toBe(true);
-})
-
-it('sets title in form correctly', () => {
-  // Setup
-  const addVideoWrapper = shallow(<AddVideo />)
+  const updateTitle = sinon.stub()
   const event = {target: {name: 'title', value: 'Brazil'}}
+  const addVideoWrapper = shallow(<AddVideo updateTitle={updateTitle} />);
 
-  //Exercise
+  // Exercise
   addVideoWrapper.find({name: 'title'}).simulate('change', event)
 
-  //Assert
-  expect(addVideoWrapper.find({value: 'Brazil'})).toHaveLength(1)
+  // Assert
+  expect(updateTitle.calledOnce).toBe(true)
+  expect(updateTitle.calledWith('Brazil')).toBe(true)
 })

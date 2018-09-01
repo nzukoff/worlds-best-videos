@@ -1,79 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EditVideo from './EditVideo';
+import { EditVideo } from './EditVideo';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 it('creates a means to edit a video', () => {
-    const editVideoWrapper = shallow(<EditVideo index={0} videos={[{title: 'Jaws II'}]} />)
+    const editVideoWrapper = shallow(<EditVideo />)
 })
 
-it('contains a "Save" button that calls a handler', () => {
-  const onSaveEditedVideo = sinon.stub()
-  const editVideoWrapper = shallow(<EditVideo index={0} videos={[{title: 'Jaws II'}]} onSaveEditedVideo={onSaveEditedVideo} />)
-  const saveButton = editVideoWrapper.find('form').find({name: 'enter'})
-  expect(saveButton).toHaveLength(1)
+it('contains a "Save" button that calls the action creator', () => {
+  // Setup
+  const saveEditedVideo = sinon.stub()
+  const updatedTitle = 'Jaws'
+  const editVideoWrapper = shallow(<EditVideo saveEditedVideo={saveEditedVideo} updatedTitle={updatedTitle} editingIndex={1}/>);
+  const saveButton = editVideoWrapper.find('button').find({name: 'enter'})
+
+  // Exercise
   saveButton.simulate('click')
-  expect(onSaveEditedVideo.calledOnce).toBe(true)
+
+  // Assert
+  expect(saveButton).toHaveLength(1)
+  expect(saveEditedVideo.calledOnce).toBe(true)
+  expect(saveEditedVideo.calledWith(1, 'Jaws')).toBe(true)
 })
 
 it('accepts a default title', () => {
-  const onSaveEditedVideo = sinon.stub()
-  const videos = [{title: 'Poltergeist'}, {title: 'Jaws'}]
-  const editVideoWrapper = shallow(<EditVideo index={1} videos={videos} onSaveEditedVideo={onSaveEditedVideo} />)
+  // Setup
+  const updatedTitle = 'Jaws'
+  const editVideoWrapper = shallow(<EditVideo editingIndex={1} updatedTitle={updatedTitle} />)
+
+  // Assert
   expect(editVideoWrapper.find({value: 'Jaws'})).toHaveLength(1)
 })
 
-it('saves video when "Save" clicked', () => {
-  const onSaveEditedVideo = sinon.stub()
-  const editVideoWrapper = shallow(<EditVideo index={1} videos={[{title: 'Jaws II'}, {title: 'A Few Good Men'}]} onSaveEditedVideo={onSaveEditedVideo} />)
-  const saveButton = editVideoWrapper.find('form').find({name: 'enter'})
-  expect(saveButton).toHaveLength(1)
-  saveButton.simulate('click')
-  expect(onSaveEditedVideo.calledOnce).toBe(true)
-  expect(onSaveEditedVideo.calledWith(1, {title: 'A Few Good Men'})).toBe(true);
-})
-
-it('sets title in form correctly', () => {
+it('calls the action creator when the title field changes', () => {
   // Setup
-  const editVideoWrapper = shallow(<EditVideo index={0} videos={[{title: 'Jaws II'}]} />)
+  const updateTitle = sinon.stub()
   const event = {target: {name: 'title', value: 'Brazil'}}
+  const editVideoWrapper = shallow(<EditVideo updateTitle={updateTitle} />);
 
   // Exercise
   editVideoWrapper.find({name: 'title'}).simulate('change', event)
 
   // Assert
-  expect(editVideoWrapper.find({value: 'Brazil'})).toHaveLength(1)
+  expect(updateTitle.calledOnce).toBe(true)
+  expect(updateTitle.calledWith('Brazil')).toBe(true)
 })
 
 it('displays a delete button', () => {
   // Setup
-  const editVideoWrapper = shallow(<EditVideo index={0} videos={[{title: 'Jaws II'}]} />)
+  const editVideoWrapper = shallow(<EditVideo />)
   const deleteButton = editVideoWrapper.find('form').find({name: 'delete'})
 
   // Assert
   expect(deleteButton).toHaveLength(1)
 })
 
-it('contains a "Delete" button that calls a handler', () => {
+it('contains a "Delete" button that calls the action creator', () => {
   // Setup
-  const onDeleteVideo = sinon.stub()
-  const editVideoWrapper = shallow(<EditVideo index={0} videos={[{title: 'Jaws II'}]} onDeleteVideo={onDeleteVideo} />)
-  const deleteButton = editVideoWrapper.find('form').find({name: 'delete'})
+  const deleteVideo = sinon.stub()
+  const editVideoWrapper = shallow(<EditVideo editingIndex={1} deleteVideo={deleteVideo} />);
+  const deleteButton = editVideoWrapper.find('button').find({name: 'delete'})
 
   // Exercise
   deleteButton.simulate('click')
 
   // Assert
-  expect(onDeleteVideo.calledOnce).toBe(true)
-})
-
-it('saves video when "Save" clicked', () => {
-  const onDeleteVideo = sinon.stub()
-  const editVideoWrapper = shallow(<EditVideo index={1} videos={[{title: 'Jaws II'}, {title: 'A Few Good Men'}]} onDeleteVideo={onDeleteVideo} />)
-  const deleteButton = editVideoWrapper.find('form').find({name: 'delete'})
   expect(deleteButton).toHaveLength(1)
-  deleteButton.simulate('click')
-  expect(onDeleteVideo.calledOnce).toBe(true)
-  expect(onDeleteVideo.calledWith(1)).toBe(true)
+  expect(deleteVideo.calledOnce).toBe(true)
+  expect(deleteVideo.calledWith(1)).toBe(true)
 })

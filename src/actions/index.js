@@ -1,4 +1,4 @@
-export const addVideo = (index, title) => ({
+export const addVideo = () => ({
   type: 'ADD_VIDEO',
   view: 'add_video'
 })

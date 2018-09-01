@@ -10,7 +10,7 @@ const editTitle = (event, updateTitle) => {
   updateTitle(value)
 }
 
-const AddVideo = (props) => (
+export const AddVideo = (props) => (
   <div className="AddVideo">
     <form onSubmit={() => props.saveAddedVideo(props.updatedTitle)}>
       <input name='title' value={props.updatedTitle} onChange={(e) => editTitle(e, props.updateTitle)} autoFocus />
