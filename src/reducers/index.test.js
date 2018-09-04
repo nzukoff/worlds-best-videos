@@ -1,93 +1,241 @@
-it('shows a video in the video list when one is added', () => {
-  // Setup
-  const appWrapper = shallow(<App />)
-  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
-  const expected = {title: 'Brazil'}
+import reducer from './index'
 
-  // Exercise
-  appWrapper.instance().onSaveAddedVideo(expected)
+describe('reducer', () => {
+  it('should return the initial state', () => {
+    const expected = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ]
+    }
 
-  // Assert
-  expect(appWrapper.state().videos).toHaveLength(3)
-  expect(appWrapper.state().videos).toContainEqual(expected)
-})
+    expect(reducer(undefined, {})).toEqual(expected)
+  })
 
-it('does not add video or change state if video title is blank', () => {
-  // Setup
-  const appWrapper = shallow(<App />)
-  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
-  const expected = {title: ''}
+  it('should return new view and blank updated title', () => {
+    const initialState = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ]
+    }
 
-  // Exercise
-  appWrapper.instance().onSaveAddedVideo(expected)
+    const expected = {
+      view: 'add_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: ''
+    }
 
-  // Assert
-  expect(appWrapper.state().videos).toHaveLength(2)
-  expect(appWrapper.state().videos).not.toContainEqual(expected)
-})
+    expect(reducer(initialState, {
+                                   type: 'ADD_VIDEO',
+                                   view: 'add_video'
+                                 }
+           )).toEqual(expected)
+  })
 
-it('shows a video in the video list when one is edited and saved', () => {
-  // Setup
-  const appWrapper = shallow(<App />)
-  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
-  const expected = {title: 'Brazil'}
+  it('should return state with new video added and new view', () => {
+    const initialState = {
+      view: 'add_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: 'Title'
+    }
 
-  // Exercise
-  appWrapper.instance().onSaveEditedVideo(1, expected)
+    const expected = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'},
+        {title: 'The Graduate'}
+      ],
+      updatedTitle: 'Title'
+    }
 
-  // Assert
-  expect(appWrapper.state().videos).toHaveLength(2)
-  expect(appWrapper.state().videos[1]).toEqual(expected)
-})
+    expect(reducer(initialState, {
+                                   type: 'SAVE_ADDED_VIDEO',
+                                   title: 'The Graduate',
+                                   view: 'video_list'
+                                 }
+           )).toEqual(expected)
+  })
 
-it('does not save edits or change state if video title is blank', () => {
-  // Setup
-  const appWrapper = shallow(<App />)
-  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
-  const expected = {title: ''}
+  it('should return same video list and new view if new title is blank', () => {
+    const initialState = {
+      view: 'add_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: ''
+    }
 
-  // Exercise
-  appWrapper.instance().onSaveEditedVideo(1, expected)
+    const expected = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: ''
+    }
 
-  // Assert
-  expect(appWrapper.state().videos).toHaveLength(2)
-  expect(appWrapper.state().videos).not.toContainEqual(expected)
-})
+    expect(reducer(initialState, {
+                                   type: 'SAVE_ADDED_VIDEO',
+                                   title: '',
+                                   view: 'video_list'
+                                 }
+           )).toEqual(expected)
+  })
 
-it('clicking "Save" button from the edit video page takes the user to the video list page', () => {
-  // Setup
-  const appWrapper = shallow(<App />);
-  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}], view: 'edit_video'})
+  it('should return state with new updated title', () => {
+    const initialState = {
+      view: 'add_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: ''
+    }
 
-  // Exercise
-  appWrapper.instance().onSaveEditedVideo(1, {title: ''})
+    const expected = {
+      view: 'add_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: 'New Title'
+    }
 
-  // Assert
-  expect(appWrapper.state().view).toEqual('video_list')
-  const videoList = appWrapper.find(VideoList)
-  expect(videoList).toHaveLength(1);
-})
+    expect(reducer(initialState, {
+                                   type: 'UPDATE_TITLE',
+                                   title: 'New Title'
+                                 }
+           )).toEqual(expected)
+  })
 
-it('video list page no longer shows video when it is deleted', () => {
-  // Setup
-  const appWrapper = shallow(<App />)
-  appWrapper.setState({videos: [{title: 'Star Wars'}, {title: 'Star Trek II'}]})
-  const expected = [{title: 'Star Wars'}]
 
-  // Exercise
-  appWrapper.instance().onDeleteVideo(1)
 
-  // Assert
-  expect(appWrapper.state().videos).toHaveLength(1)
-  expect(appWrapper.state().videos).toEqual(expected)
-})
 
-it('saves video when "Save" clicked', () => {
-  const onDeleteVideo = sinon.stub()
-  const editVideoWrapper = shallow(<EditVideo index={1} videos={[{title: 'Jaws II'}, {title: 'A Few Good Men'}]} onDeleteVideo={onDeleteVideo} />)
-  const deleteButton = editVideoWrapper.find('form').find({name: 'delete'})
-  expect(deleteButton).toHaveLength(1)
-  deleteButton.simulate('click')
-  expect(onDeleteVideo.calledOnce).toBe(true)
-  expect(onDeleteVideo.calledWith(1)).toBe(true)
+
+  it('should return new view, updated title, and editing index', () => {
+    const initialState = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ]
+    }
+
+    const expected = {
+      view: 'edit_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: 'Changed Title',
+      editingIndex: 1
+    }
+
+    expect(reducer(initialState, {
+                                   type: 'EDIT_VIDEO',
+                                   view: 'edit_video',
+                                   title: 'Changed Title',
+                                   index: 1
+                                 }
+           )).toEqual(expected)
+  })
+
+  it('should return state with edited video and new view', () => {
+    const initialState = {
+      view: 'edit_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: 'The Graduate',
+      editingIndex: 1
+    }
+
+    const expected = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'The Graduate'}
+      ],
+      updatedTitle: 'The Graduate',
+      editingIndex: 1
+    }
+
+    expect(reducer(initialState, {
+                                   type: 'SAVE_EDITED_VIDEO',
+                                   title: 'The Graduate',
+                                   view: 'video_list',
+                                   index: 1
+                                 }
+           )).toEqual(expected)
+  })
+
+  it('should return same video list and new view if new title is blank', () => {
+    const initialState = {
+      view: 'edit_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: '',
+      editingIndex: 1
+    }
+
+    const expected = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: '',
+      editingIndex: 1
+    }
+
+    expect(reducer(initialState, {
+                                   type: 'SAVE_EDITED_VIDEO',
+                                   title: '',
+                                   view: 'video_list',
+                                   index: 1
+                                 }
+           )).toEqual(expected)
+  })
+
+  it('should return state with deleted video removed from list', () => {
+    const initialState = {
+      view: 'edit_video',
+      videos: [
+        {title: 'Star Wars IV'},
+        {title: 'Star Trek II'}
+      ],
+      updatedTitle: 'The Graduate',
+      editingIndex: 1
+    }
+
+    const expected = {
+      view: 'video_list',
+      videos: [
+        {title: 'Star Wars IV'}
+      ],
+      updatedTitle: 'The Graduate',
+      editingIndex: 1
+    }
+
+    expect(reducer(initialState, {
+                                   type: 'DELETE_VIDEO',
+                                   view: 'video_list',
+                                   index: 1
+                                 }
+           )).toEqual(expected)
+  })
 })
