@@ -15,6 +15,9 @@ public class Video {
         this.title = title;
     }
 
+    public Video() {
+    }
+
     public int getId() {
         return id;
     }
