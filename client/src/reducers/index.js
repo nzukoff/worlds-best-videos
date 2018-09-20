@@ -1,9 +1,6 @@
 const initialState = {
   view: 'video_list',
-  videos: [
-    {title: 'Star Wars IV'},
-    {title: 'Star Trek II'}
-  ]
+  videos: []
 }
 
 const rootReducer = (state = initialState, action) => {
