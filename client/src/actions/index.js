@@ -33,3 +33,16 @@ export const updateTitle = (title) => ({
   type: 'UPDATE_TITLE',
   title
 })
+
+export const getVideoList = () => {
+  return async (dispatch) => {
+    const response = await fetch('/api/videos')
+    const videos = await response.json()
+    dispatch(gotVideoList(videos))
+  }
+}
+
+export const gotVideoList = (videos) => ({
+  type: 'GOT_VIDEOS',
+  videos
+})
