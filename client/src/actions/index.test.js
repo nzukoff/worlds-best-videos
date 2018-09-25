@@ -1,3 +1,10 @@
+import configureMockStore from 'redux-mock-store'
+import thunk from 'redux-thunk'
+import fetchMock from 'fetch-mock'
+
+const middlewares = [thunk]
+const mockStore = configureMockStore(middlewares)
+
 import * as actions from './index'
 
 describe('actions', () => {
@@ -66,5 +73,57 @@ describe('actions', () => {
     }
 
     expect(actions.updateTitle(title)).toEqual(expectedAction)
+  })
+
+  it('should create an action to update the [fetched] video list', () => {
+    const videos = [{title: 'Brazil'}]
+    const expectedAction = {
+      type: 'GOT_VIDEOS',
+      videos: [{title: 'Brazil'}]
+    }
+
+    expect(actions.gotVideoList(videos)).toEqual(expectedAction)
+  })
+})
+
+describe('async actions', () => {
+  afterEach(() => {
+    fetchMock.reset()
+    fetchMock.restore()
+  })
+
+  // Setup
+  it('should create GOT_VIDEOS when videos are fetched', () => {
+    fetchMock
+      .getOnce('/api/videos', {
+                                body: [
+                                   { title: "The Graduate"}
+                                ],
+                                headers: {
+                                  'content-type': 'application/json'
+                                }
+                              })
+
+    const expectedActions = [
+      { type: 'GOT_VIDEOS', videos: [ { title: "The Graduate" } ] }
+    ]
+
+    const store = mockStore({ videos: [] })
+
+    // Exercise
+    ;(async () => {
+      await store.dispatch(actions.getVideoList())
+      expect(store.getActions()).toEqual(expectedActions)
+    })()
+
+    // store.dispatch(actions.getVideoList()).then(() => {
+    //   // return of async actions
+    //   expect(store.getActions()).toEqual(expectedActions)
+    // })
+
+    // return store.dispatch(actions.getVideoList()).then(() => {
+    //   // return of async actions
+    //   expect(store.getActions()).toEqual(expectedActions)
+    // })
   })
 })
