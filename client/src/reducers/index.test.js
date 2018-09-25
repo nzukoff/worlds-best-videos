@@ -4,10 +4,7 @@ describe('reducer', () => {
   it('should return the initial state', () => {
     const expected = {
       view: 'video_list',
-      videos: [
-        {title: 'Star Wars IV'},
-        {title: 'Star Trek II'}
-      ]
+      videos: []
     }
 
     expect(reducer(undefined, {})).toEqual(expected)

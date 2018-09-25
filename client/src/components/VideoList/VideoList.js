@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Video from '../Video/Video';
 import { getVideoList } from '../../actions/index'
 
-class VideoList extends Component {
+export class VideoList extends Component {
   render() {
     return (
       <div className="VideoList">
@@ -14,7 +14,7 @@ class VideoList extends Component {
   }
 
   componentDidMount() {
-    console.log("We mounted!")
+    //console.log("We mounted!")
     this.props.getVideoList()
   }
 }

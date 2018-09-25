@@ -6,9 +6,11 @@ import { shallow } from 'enzyme'
 import sinon from 'sinon'
 
 it('displays a list of video titles', () => {
-  const videoData = [{title: 'Star Wars'}, {title: 'Star Trek II'}]
-  const videoListWrapper = shallow(<VideoList videos={videoData} />)
+  const videoData = []
+  const getVideoList = sinon.stub()
+  const videoListWrapper = shallow(<VideoList videos={videoData} getVideoList={getVideoList} />)
   const videos = videoListWrapper.find(Video)
 
-  expect(videos).toHaveLength(2)
+  expect(videos).toHaveLength(0)
+  expect(getVideoList.calledOnce).toBe(true)
 });
