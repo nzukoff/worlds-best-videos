@@ -24,7 +24,8 @@ public class WorldsBestVideosAT extends FluentTest {
 
     @Override
     public WebDriver newWebDriver() {
-        System.setProperty("webdriver.chrome.driver", "/Users/nathan.zukoff/bin/chromedriver");
+        String homeDir = System.getenv("HOME");
+        System.setProperty("webdriver.chrome.driver", homeDir + "/bin/chromedriver");
         ChromeOptions opt = new ChromeOptions();
 //        opt.addArguments("--headless");
 //        opt.addArguments("--disable-gpu");
@@ -46,8 +47,8 @@ public class WorldsBestVideosAT extends FluentTest {
     @Test
     public void testHomePage() {
         goTo("http://localhost:" + this.port + "/");
-        await().atMost(10, TimeUnit.SECONDS).until(() -> $(".h1").present());
-        assertThat($(".h1").text()).isEqualTo("World's Best Videos");
+        await().until(() -> $("h1").present());
+        assertThat($("h1").text()).isEqualTo("World's Best Videos");
     }
 
 
