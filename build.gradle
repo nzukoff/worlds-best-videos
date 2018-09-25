@@ -34,6 +34,13 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	runtime('mysql:mysql-connector-java:8.0.11')
 	compile('javax.xml.bind:jaxb-api:2.3.0')
+    testCompile 'org.fluentlenium:fluentlenium-core:3.4.1'
+    testCompile 'org.fluentlenium:fluentlenium-junit:3.4.1'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.5.3'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-support', version: '3.5.3'
+    testCompile('org.seleniumhq.selenium:selenium-remote-driver:3.5.3')
+    testCompile('org.seleniumhq.selenium:selenium-api:3.5.3')
+    testCompile "org.seleniumhq.selenium:htmlunit-driver:2.27"
 }
 
 node {
@@ -50,3 +57,4 @@ copyResources.dependsOn npm_run_build
 processResources.dependsOn copyResources
 
 test.outputs.upToDateWhen {false}
+

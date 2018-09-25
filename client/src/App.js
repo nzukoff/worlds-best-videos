@@ -42,7 +42,8 @@ export const App = (props) => {
       <div className="container">
         <div className="row">
           <div className="col">
-            <img src={logo} className="logo" alt="logo" />
+            <h1>World's Best Videos</h1>
+            <img src={logo} className="logo" alt="logo" />            
           </div>
         </div>
       </div>
