@@ -12,6 +12,12 @@ const rootReducer = (state = initialState, action) => {
         updatedTitle: ''
       })
 
+    case 'GOT_VIDEOS':
+      return({
+        ...state,
+        videos: action.videos
+      })
+
     case 'SAVE_ADDED_VIDEO':
       if (action.title !== '') {
         return({
