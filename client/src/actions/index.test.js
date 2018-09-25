@@ -93,7 +93,7 @@ describe('async actions', () => {
   })
 
   // Setup
-  it('should create GOT_VIDEOS when videos are fetched', () => {
+  it('should create GOT_VIDEOS when videos are fetched', async () => {
     fetchMock
       .getOnce('/api/videos', {
                                 body: [
@@ -111,14 +111,20 @@ describe('async actions', () => {
     const store = mockStore({ videos: [] })
 
     // Exercise
-    ;(async () => {
-      await store.dispatch(actions.getVideoList())
-      expect(store.getActions()).toEqual(expectedActions)
-    })()
+    await store.dispatch(actions.getVideoList())
+    expect(store.getActions()).toEqual(expectedActions)
+    //expect(true).toBe(false)
 
-    // store.dispatch(actions.getVideoList()).then(() => {
+    // ;(async () => {
+    //   await store.dispatch(actions.getVideoList())
+    //   expect(store.getActions()).toEqual(expectedActions)
+    //   //expect(true).toBe(false)
+    // })()
+
+    // await store.dispatch(actions.getVideoList()).then(() => {
     //   // return of async actions
     //   expect(store.getActions()).toEqual(expectedActions)
+    //   expect(true).toBe(false)
     // })
 
     // return store.dispatch(actions.getVideoList()).then(() => {
